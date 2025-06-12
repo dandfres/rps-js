@@ -10,12 +10,6 @@ function getComputerChoice() {
     };
 };
 
-// Obtiene la eleccion del jugador
-function getHumanChoice() {
-    let choice = (prompt("Que elijes piedra, papel o tijera??")).toLowerCase();
-    return choice;
-};
-
 // Define el ganador de la ronda
 function defineWinner(humanChoice, computerChoice) {
     if (humanChoice === computerChoice) {
@@ -33,30 +27,28 @@ function defineWinner(humanChoice, computerChoice) {
     }
 };
 
-    let humanScore = 0;
-    let computerScore = 0;
+let humanScore = 0;
+let computerScore = 0;
 
-// Inicia el juego y lleva la cuenta
-function playGame() {
-    const humanSelection = getHumanChoice();
+// ESCUCHA EL CONTENEDOR DE LOS BOTONES
+let option = document.querySelector('#hand-options')
+option.addEventListener('click', playGame);
+
+// FUNCION PRINCIPAL DEL JUEGO
+function playGame(event) {
+    const clickedButton = event.target.closest('button');
+    if (!clickedButton)  return;
+
+    const humanSelection = clickedButton.dataset.choice;
     const computerSelection = getComputerChoice();
     const result = defineWinner(humanSelection, computerSelection);
-    
-    console.log("Elegiste: " + humanSelection + "\nLa computadora: " + computerSelection + "\n" +result);
+
+    const outcome = document.querySelector(".outcome");
+    const newElement = document.createElement('span');
+    const message = `Elegiste: ${humanSelection}\nLa computadora: ${computerSelection}\n${result}`;
+
+    newElement.textContent = message;
+    outcome.appendChild(newElement);
+
+    console.log(message);
 };
-
-for (let i = 0; i < 5; i++) {
-    playGame()
-}
-
-console.log("==================\nRESULTADO FINAL\nTu: " + humanScore + " | Computadora: " + computerScore)
-
-if (humanScore > computerScore) {
-    console.log("GANASTE EL JUEGO :D");
-} else if (humanScore < computerScore){
-    console.log("PERDISTE EL JUEGO :(");
-} else {
-    console.log("EMPATE !!")
-}
-
-
